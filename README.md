@@ -38,13 +38,35 @@ llm-benchmark/
 
 ## 使用方法
 
-运行全套性能测试：
+# 测试所有上下文大小（包括新增的大尺寸）
+
+python3 context_benchmarks.py --llm_url http://localhost:11434/v1 --model deepseek-r1:32b --concurrency 1 --num_requests 1
+
+python3 context_benchmarks.py --llm_url http://localhost:8000/v1 --model DeepSeek-R1 --concurrency 1 --num_requests 1 --context_sizes 13t --debug
+
+# 单线程测试
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --concurrency 1
+
+# 并发测试
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --concurrency 4
+
+# 自定义参数
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --concurrency 2 --num_requests 5 --context_sizes 1k,4k,16k
+
+# 测试所有上下文大小（包括13t）
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --model "DeepSeek-R1-0528-INT4"
+
+# 仅测试13t
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --model "DeepSeek-R1-0528-INT4" --context_sizes 13t
+
+# 测试13t和其他小尺寸
+python context_benchmarks.py --llm_url http://localhost:8000/v1 --model "DeepSeek-R1-0528-INT4" --context_sizes "13t,1k,2k"
 
 ```bash
 python run_benchmarks.py \
-    --llm_url "http://your-llm-server" \
+    --llm_url "http://192.168.0.136:8090/v1" \
     --api_key "your-api-key" \
-    --model "your-model-name" \
+    --model "DeepSeek-R1-0528-INT4" \
     --use_long_context
 ```
 
@@ -52,9 +74,9 @@ python run_benchmarks.py \
 
 ```bash
 python llm_benchmark.py \
-    --llm_url "http://your-llm-server" \
+    --llm_url "http://192.168.0.136:8090/v1" \
     --api_key "your-api-key" \
-    --model "your-model-name" \
+    --model "DeepSeek-R1-0528-INT4" \
     --num_requests 100 \
     --concurrency 10
 ```
